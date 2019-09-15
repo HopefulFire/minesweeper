@@ -107,10 +107,6 @@ class game():
         self.field = []
         self.generate_field()
 
-class gui():
-    def __init__(self):
-        pass
-
 def colored(tile):
     #
     # sets tile colors for terminal
