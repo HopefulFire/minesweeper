@@ -22,17 +22,34 @@ class game():
             tile = ' ' + str(mines_nearby)
         self.board[y][x] = tile
     
+    def was_probed(self, x, y):
+        if (x, y) in self.probed_tiles:
+            return True
+        else:
+            self.probed_tiles[(x, y)] = None
+            return False
+    
     def probe_tile(self, x, y):
         #
         # finds if there are nearby bombs, then searches further if there are not
         # also calls place_tile to update board
         #
+        if self.was_probed(x, y):
+            return None
+            
         mines_nearby = 0
         for i in range(-1, 2):
             for j in range(-1, 2):
                 if self.is_inbounds(x+j, y+i):
                     if self.is_mine(x+j, y+i):
                         mines_nearby += 1
+                        
+        if not mines_nearby:
+            for i in range(-1, 2):
+                for j in range(-1, 2):
+                    if self.is_inbounds(x+j, y+i):
+                        self.probe_tile(x+j, y+i)
+            
         self.place_tile(x, y, mines_nearby)
     
     def is_inbounds(self, x, y):
@@ -53,7 +70,7 @@ class game():
         else:
             return False
         
-    def printout(self, name='field'):
+    def printout(self, name='board'):
         #
         # prints out field or gameboard
         #
@@ -106,6 +123,8 @@ class game():
         self.generate_board()
         self.field = []
         self.generate_field()
+        self.probed_tiles = {}
+
 
 def colored(tile):
     #
