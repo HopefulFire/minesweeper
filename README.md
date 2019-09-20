@@ -1,2 +1,2 @@
 # minesweeper
-First game
+Python-based Minesweeper api and primative game.
