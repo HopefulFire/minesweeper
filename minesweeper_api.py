@@ -70,21 +70,7 @@ class game():
         else:
             return False
         
-    def printout(self, name='board'):
-        #
-        # prints out field or gameboard
-        #
-        if name == 'field':
-            board = self.field
-        elif name == 'board':
-            board = self.board
-        output = []
-        for row in board:
-            line = []
-            for tile in row:
-                line += [colored(tile)]
-            output += [''.join(line + ['\n'])]
-        print(''.join(output))
+
         
     def generate_field(self):
         #
@@ -99,7 +85,6 @@ class game():
             for x in range(self.x):
                 row += [temporary_field.pop()]
             self.field += [row]
-        self.printout('field')
         
     def generate_board(self):
         #
@@ -111,10 +96,8 @@ class game():
             for x in range(self.x):
                 row += [temporary_board.pop()]
             self.board += [row]
-        self.printout('board')
         
     def __init__(self, x=10, y=10, num_mines=20):
-        print(self)
         self.x = x
         self.y = y
         self.num_tiles = self.x * self.y
@@ -125,6 +108,17 @@ class game():
         self.generate_field()
         self.probed_tiles = {}
 
+def printout(grid):
+    #
+    # prints out field or gameboard
+    #
+    output = []
+    for row in grid:
+        line = []
+        for tile in row:
+            line += [colored(tile)]
+        output += [''.join(line + ['\n'])]
+    print(''.join(output))
 
 def colored(tile):
     #
@@ -150,5 +144,5 @@ def colored(tile):
         return ''.join((bg_color('light_gray'), fg_color('light_red'), style('bold'), tile, style('reset')))
     elif tile == ' 8':
         return ''.join((bg_color('light_gray'), fg_color('red'), style('bold'), tile, style('reset')))
-    elif tile == ' P' or tile == ' ?' or tile == ' *':
+    elif tile == ' P' or tile == ' ?' or tile == ' *' or tile == 'XX':
         return ''.join((bg_color('dark_gray'), fg_color('red'), style('bold'), tile, style('reset')))
