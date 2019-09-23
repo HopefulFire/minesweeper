@@ -26,7 +26,7 @@ class game():
         if (x, y) in self.probed_tiles:
             return True
         else:
-            self.probed_tiles[(x, y)] = None
+            self.probed_tiles.add((x, y))
             return False
     
     def probe_tile(self, x, y):
@@ -106,7 +106,7 @@ class game():
         self.generate_board()
         self.field = []
         self.generate_field()
-        self.probed_tiles = {}
+        self.probed_tiles = set()
 
 def printout(grid):
     #
