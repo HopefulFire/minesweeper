@@ -8,9 +8,11 @@ from pprint import pformat
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s.%(levelname)s.%(name)s.%(message)s.')
-file_handler = logging.FileHandler('minesweeper_api.log')
+file_handler = logging.FileHandler('minesweeper.log')
 file_handler.setFormatter(formatter)
 log.addHandler(file_handler)
+
+log.info('minesweeper_api LOADED')
 
 class game():
     def reveal_all(self):
