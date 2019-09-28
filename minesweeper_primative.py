@@ -2,6 +2,7 @@ import logging
 import minesweeper_api as minesweeper
 from os import system
 from time import sleep
+from curtsies import Input
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -42,35 +43,40 @@ def flip():
 def move():
     global xpos, ypos, alive
     log.info('Getting move direction/action')
-    action = input('Enter wasd or ?fx: ')
-    log.debug(f'Action is "{action}"')
-    if action == 'w' and ypos > 0:
-        ypos -= 1
-    elif action == 's' and ypos < game.y:
-        ypos += 1
-    elif action == 'a' and xpos > 0:
-        xpos -= 1
-    elif action == 'd' and xpos < game.x:
-        xpos += 1
     
-    elif action == '?':
-        game.board[ypos][xpos] = ' ?'
-    
-    elif action == 'f':
-        game.board[ypos][xpos] = ' P'
-        
-    elif action == 'x':
-        if not game.is_mine(xpos, ypos):
-            game.probe_tile(xpos, ypos)
-        else:
-            alive = False
-    else:
-        print('bad value')
-        sleep(5)
+    with Input(keynames='curses') as key_presses:
+        for key in key_presses:
+            log.debug(f'{key} pressed')
+            
+            if key == 'w' or key == 'KEY_UP' and ypos > 0:
+                ypos -= 1
+            elif key == 's' or key == 'KEY_DOWN' and ypos < game.y:
+                ypos += 1
+            elif key == 'a' or key == 'KEY_LEFT' and xpos > 0:
+                xpos -= 1
+            elif key == 'd' or key == 'KEY_RIGHT' and xpos < game.x:
+                xpos += 1
+                
+            elif key == '/':
+                game.board[ypos][xpos] = ' ?'
+            elif key == 'f' or key == 'p':
+                game.board[ypos][xpos] = ' P'
+            elif key == 'x' or key == '\n':
+                if not game.is_mine(xpos, ypos):
+                    game.probe_tile(xpos, ypos)
+                else:
+                    alive = False
+            else:
+                log.warn('Bad value!')
+            break
             
 alive = True
 while alive:
     flip()
     move()
+    if len(game.probed_tiles) + game.num_mines == game.num_tiles:
+        log.info('Game won')
+        print('Game won!')
+        alive = False
 log.info('Game over')
 print('Game Over')
