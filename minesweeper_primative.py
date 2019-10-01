@@ -50,11 +50,11 @@ def move():
             
             if key == 'w' or key == 'KEY_UP' and ypos > 0:
                 ypos -= 1
-            elif key == 's' or key == 'KEY_DOWN' and ypos < game.y:
+            elif key == 's' or key == 'KEY_DOWN' and ypos < game.y - 1:
                 ypos += 1
             elif key == 'a' or key == 'KEY_LEFT' and xpos > 0:
                 xpos -= 1
-            elif key == 'd' or key == 'KEY_RIGHT' and xpos < game.x:
+            elif key == 'd' or key == 'KEY_RIGHT' and xpos < game.x - 1:
                 xpos += 1
                 
             elif key == '/':
