@@ -99,15 +99,3 @@ class Tile:
     def __repr__(self):
         string = 'Tile(' + str(self.is_hidden) + ', ' + str(self.is_mined) + ', ' + str(self.mine_status) + ')'
         return string
-
-
-
-# test code
-
-tile = Tile(True, False, 0)
-print(tile.__repr__())
-print(tile)
-
-field = Field((40, 40), 200, False)
-print(field.__repr__())
-print(field)
